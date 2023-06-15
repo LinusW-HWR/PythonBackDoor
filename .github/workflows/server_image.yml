@@ -3,7 +3,7 @@ name: Building Server Image
 on:
   push:
     branches:
-      - "main"
+      - "master"
 
 jobs:
   docker:

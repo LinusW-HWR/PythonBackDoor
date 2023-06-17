@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Clients{% endblock %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='clients_style.css') }}">
+{% endblock %}
+
+{% block content %}
+    <h1>Clients:</h1>
+    {% for c in cls %}
+        <a class="btn btn-secondary shell_link" href="shell/{{ loop.index0 }}">
+            <p class="clname">Client {{ loop.index0 }}</p>
+            <p>IP: {{ c.addr }}</p>
+            <p>PWD: {{ c.pwd }}</p>
+        </a>
+    {% endfor %}
+{% endblock %}

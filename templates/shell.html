@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Listen{% endblock %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='shell_style.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div id="main">
+    <div id="console">
+        <ul>
+            {% for s in client.output %}
+                <li>{{ s }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div id="inputandpwd">
+        <div id="pwd">PWD: {{ client.pwd }}</div>
+        <form id="frm" method="post">
+            <input name="cmd" class="form-control" type="text" id="cmdinput" placeholder="Enter command" autofocus>
+        </form>
+    </div>
+    </div>
+{% endblock %}
+

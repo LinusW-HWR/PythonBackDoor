@@ -1,0 +1,45 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+#main{
+    padding: 0 50px;
+}
+
+#console{
+    height: 400px;
+    background: #282727;
+    border-radius: 10px 10px 0 0;
+
+    padding: 0 10px;
+
+    color: white;
+    display: flex;
+    overflow: auto;
+    flex-direction: column-reverse;
+}
+#console ul{
+    list-style-type: none;
+}
+
+#inputandpwd{
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 10px;
+
+    background: #282727;
+    border-radius: 0 0 10px 10px;
+}
+
+#frm{
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+}
+
+#pwd{
+    width: 100%;
+}

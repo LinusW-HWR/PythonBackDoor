@@ -4,8 +4,8 @@ from threading import Thread
 
 import models
 
-HOST = "127.0.0.1"  # str(os.environ.get("BD_HOST"))
-PORT = 5004  # int(os.environ.get("BD_PORT"))
+HOST = str(os.environ.get("BD_HOST"))
+PORT = int(os.environ.get("BD_PORT"))
 server_socket = socket.socket()
 server_socket.bind((HOST, PORT))
 print('[+] Server Started')

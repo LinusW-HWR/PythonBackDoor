@@ -30,23 +30,7 @@ def shell(id=-1):
         return render_template("shell.html", client=client)
 
 
-@app.route("/listen")
-def listen():
-    if "listening" not in session:
-        thread = Thread(target=server.listen_for_clients)
-        thread.start()
-        session["listening"] = True
-        msg = "Now listening"
-    else:
-        msg = "Already listening"
-    return render_template("listen.html", msg=msg)
-
-
-@app.route("/pop")
-def pop():
-    session.clear()
-    return render_template("pop.html")
-
-
 if __name__ == '__main__':
+    thread = Thread(target=server.listen_for_clients)
+    thread.start()
     app.run(host="0.0.0.0")

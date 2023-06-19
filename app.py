@@ -25,8 +25,11 @@ def shell(shell_id):
         return render_template("shell.html", client=client)
     else:
         cmd = request.form["cmd"]
-        output = server.send_command(cmd, client)
-        client.append_output(output)
+        if cmd == "clear":
+            client.output = []
+        else:
+            output = server.handle_command(cmd, client)
+            client.append_output(output)
         return render_template("shell.html", client=client)
 
 

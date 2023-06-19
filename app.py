@@ -17,10 +17,10 @@ def clients():
     return render_template("clients.html", cls=server.clients)
 
 
-@app.route("/shell/<id>", methods=["POST", "GET"])
-def shell(id=-1):
-    id_int = int(id)
-    client = server.clients[id_int]
+@app.route("/shell/<shell_id>", methods=["POST", "GET"])
+def shell(shell_id):
+    shell_id = int(shell_id)
+    client = server.clients[shell_id]
     if request.method == "GET":
         return render_template("shell.html", client=client)
     else:

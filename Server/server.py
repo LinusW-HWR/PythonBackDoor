@@ -13,28 +13,27 @@ clients = []
 server_socket.listen(5)
 
 
-def send_command(userinput, client):
-    input_list = userinput.split(" ")
-    command = input_list[0]
+def handle_command(userinput, client):
+    command = userinput.split(" ")[0]
     cl = client.socket
-    print(command)
-    args = input_list.copy()
     output = ""
-    del (args[0])
-    if command == "quit":
-        cl.send(userinput.encode("UTF-8"))
-    elif command == 'pwd':
-        return client.pwd
-    elif command == "cd":
+
+    if command == "cd":
         cl.send(userinput.encode("UTF-8"))
         output = cl.recv(1024).decode()
-        print(output)
-        if not output == "invalid":
+        if not output == "Invalid Path!":
             client.pwd = output
+    elif command == 'pwd':
+        return client.pwd
     elif command == "ls":
         cl.send(userinput.encode("UTF-8"))
         output = cl.recv(1024)
         output = output.decode()
+    elif command == "clear":
+        for i in range(20):
+            output = output + " \n  "
+    else:
+        output = "Unknown command! (help for help)"
     return output
 
 

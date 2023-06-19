@@ -29,9 +29,6 @@ def handle_command(userinput, client):
         cl.send(userinput.encode("UTF-8"))
         output = cl.recv(1024)
         output = output.decode()
-    elif command == "clear":
-        for i in range(20):
-            output = output + " \n  "
     else:
         output = "Unknown command! (help for help)"
     return output

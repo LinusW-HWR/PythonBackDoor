@@ -47,4 +47,23 @@ while True:
             else:
                 if not s.startswith("."):
                     output = output + "\n" + s
-    server.send(output.encode("UTF-8"))
+    server.send(output.encode("UTF-8"))        file_name = args[0]
+        file_bytes = b""
+        done = False
+
+        while not done:
+            data = server.recv(1024)
+            file_bytes += data
+            if file_bytes[-5:] == b"<END>":
+                done = True
+
+        final_bytes = file_bytes[:-5]
+        if not os.path.exists(os.path.join(pwd, file_name)):
+            file = open(os.path.join(pwd, file_name), "wb")
+            file.write(final_bytes)
+            file.close()
+            output = "File send"
+        else:
+            output = "File already exists!"
+        server.send(output.encode("UTF-8"))
+    elif command == "download":

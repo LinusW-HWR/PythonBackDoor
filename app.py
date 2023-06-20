@@ -30,6 +30,16 @@ def shell(shell_id):
         cmd = request.form["cmd"]
         if cmd == "clear":
             client.output = []
+        elif cmd == "download":
+            result = server.handle_command(user_in, client)
+            if not type(result) == str:
+                file_name = result[0]
+                file = result[1]
+                return send_file(file,
+                                 as_attachment=True,
+                                 download_name=file_name)
+            else:
+                client.append_output(result)
         else:
             output = server.handle_command(cmd, client)
             client.append_output(output)

@@ -67,3 +67,13 @@ while True:
             output = "File already exists!"
         server.send(output.encode("UTF-8"))
     elif command == "download":
+        if os.path.exists(args[0]):
+            server.send("yes".encode("UTF-8"))
+            time.sleep(5)
+            file = open(args[0], "rb")
+            data = file.read()
+            server.sendall(data)
+            server.send(b"<END>")
+            file.close()
+        else:
+            server.send("no".encode("UTF-8"))

@@ -42,6 +42,28 @@ def handle_command(userinput, client):
         else:
             output = "No args given!"
 
+    elif command == "download":
+        if len(args) > 0:
+            cl.send(userinput.encode("UTF-8"))
+            valid = cl.recv(1024).decode()
+            if valid == "yes":
+                file_name = args[0]
+                file_bytes = b""
+                done = False
+                while not done:
+                    data = cl.recv(1024)
+                    file_bytes += data
+                    if file_bytes[-5:] == b"<END>":
+                        done = True
+                final_bytes = file_bytes[:-5]
+                file = io.BytesIO(final_bytes)
+                file.seek(0)
+                return file_name, file
+            else:
+                output = "File not found!"
+        else:
+            output = "No args given!"
+
     else:
         output = "Unknown command! (help for help)"
     return output

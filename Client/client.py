@@ -78,7 +78,7 @@ while True:
         if not path == "":
             server.send("yes".encode("UTF-8"))
             time.sleep(5)
-            file = open(args[0], "rb")
+            file = open(path, "rb")
             data = file.read()
             server.sendall(data)
             server.send(b"<END>")

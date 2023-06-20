@@ -27,7 +27,8 @@ def shell(shell_id):
     if request.method == "GET":
         return render_template("shell.html", client=client)
     else:
-        cmd = request.form["cmd"]
+        user_in = request.form["cmd"]
+        cmd = user_in.split(" ")[0]
         if cmd == "clear":
             client.output = []
         elif cmd == "download":
@@ -41,7 +42,7 @@ def shell(shell_id):
             else:
                 client.append_output(result)
         else:
-            output = server.handle_command(cmd, client)
+            output = server.handle_command(user_in, client)
             client.append_output(output)
         return render_template("shell.html", client=client)
 

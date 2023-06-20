@@ -40,6 +40,7 @@ while True:
             output = pwd
         else:
             output = "Invalid Path!"
+        server.send(output.encode("UTF-8"))
     elif command == "ls":
         for s in sorted(os.listdir(pwd)):
             if "-a" in args:
@@ -47,7 +48,9 @@ while True:
             else:
                 if not s.startswith("."):
                     output = output + "\n" + s
-    server.send(output.encode("UTF-8"))        file_name = args[0]
+        server.send(output.encode("UTF-8"))
+    elif command == "send":
+        file_name = args[0]
         file_bytes = b""
         done = False
 

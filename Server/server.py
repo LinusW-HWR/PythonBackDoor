@@ -1,5 +1,7 @@
+import io
 import socket
 import os
+import time
 from threading import Thread
 
 import models
@@ -17,18 +19,26 @@ def handle_command(userinput, client):
     command = userinput.split(" ")[0]
     cl = client.socket
     output = ""
+    args = userinput.split(" ")
+    del (args[0])
 
     if command == "cd":
-        cl.send(userinput.encode("UTF-8"))
-        output = cl.recv(1024).decode()
-        if not output == "Invalid Path!":
-            client.pwd = output
+        if len(args) > 0:
+            cl.send(userinput.encode("UTF-8"))
+            output = cl.recv(1024).decode()
+            if not output == "Invalid Path!":
+                client.pwd = output
+        else:
+            output = "No args given!"
+
     elif command == 'pwd':
         return client.pwd
+
     elif command == "ls":
         cl.send(userinput.encode("UTF-8"))
         output = cl.recv(1024)
         output = output.decode()
+
     elif command == "send":
         if len(args) > 0:
             if not client.get_file_by_name(args[0]) is None:
@@ -66,6 +76,7 @@ def handle_command(userinput, client):
 
     else:
         output = "Unknown command! (help for help)"
+
     return output
 
 

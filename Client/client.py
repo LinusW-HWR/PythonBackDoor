@@ -70,7 +70,12 @@ while True:
             output = "File already exists!"
         server.send(output.encode("UTF-8"))
     elif command == "download":
+        path = ""
         if os.path.exists(args[0]):
+            path = args[0]
+        elif os.path.exists(os.path.join(pwd, args[0])):
+            path = os.path.abspath(os.path.join(pwd, args[0]))
+        if not path == "":
             server.send("yes".encode("UTF-8"))
             time.sleep(5)
             file = open(args[0], "rb")

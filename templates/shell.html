@@ -8,19 +8,35 @@
 
 {% block content %}
     <div id="main">
-    <div id="console">
-        <ul>
-            {% for s in client.output %}
-                <li>{{ s }}</li>
-            {% endfor %}
-        </ul>
-    </div>
-    <div id="inputandpwd">
-        <div id="pwd">PWD: {{ client.pwd }}</div>
-        <form id="frm" method="post">
-            <input name="cmd" class="form-control" type="text" id="cmdinput" placeholder="Enter command" autofocus>
-        </form>
-    </div>
+        <div id="console">
+            <div id="output">
+                <ul>
+                    {% for s in client.output %}
+                        <li>{{ s }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div id="inputandpwd">
+                <div id="pwd">{{ client.pwd }}</div>
+                <form id="frm" method="post">
+                    <input name="cmd" class="form-control" type="text" id="cmdinput" placeholder="Enter command"
+                           autofocus>
+                </form>
+            </div>
+        </div>
+        <div id="client_files">
+            <div>
+                <h2>Upload files</h2>
+                {% for f in client.files %}
+                    <p>{{ f.name }}</p>
+                {% endfor %}
+                <form id="upload_file" action={{ request.path }}/upload_file method="POST"
+                      enctype="multipart/form-data">
+                    <input class="form-control text-light bg-dark border-dark" type="file" name="file"/>
+                    <button type="submit" class="btn btn-primary">Upload</button>
+                </form>
+            </div>
+        </div>
     </div>
 {% endblock %}
 

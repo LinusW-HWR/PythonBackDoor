@@ -4,9 +4,24 @@
 }
 #main{
     padding: 0 50px;
+    display: flex;
+    flex-direction: row;
 }
 
 #console{
+    width: 100%;
+}
+
+#client_files{
+    width: 30%;
+    padding: 0 10px;
+}
+
+#upload_file{
+    margin: 5px 0;
+}
+
+#output{
     height: 400px;
     background: #282727;
     border-radius: 10px 10px 0 0;
@@ -18,7 +33,7 @@
     overflow: auto;
     flex-direction: column-reverse;
 }
-#console ul{
+#output ul{
     list-style-type: none;
 }
 
@@ -42,4 +57,5 @@
 
 #pwd{
     width: 100%;
+    margin-right: 10px;
 }

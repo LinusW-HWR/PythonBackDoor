@@ -43,6 +43,8 @@ def handle_command(userinput, client):
         if len(args) > 0:
             if not client.get_file_by_name(args[0]) is None:
                 cl.send(userinput.encode("UTF-8"))
+                time.sleep(5)
+
                 file = client.get_file_by_name(args[0])
                 cl.sendall(file.data.getvalue())
                 cl.send(b"<END>")

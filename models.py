@@ -13,3 +13,12 @@ class Client:
         cmd = str(cmd)
         for l in cmd.splitlines():
             self.output.append(l)
+
+class MemFile:
+    name = None
+    data = None
+
+    def __init__(self, name, data):
+        self.name = name
+        self.data = data
+

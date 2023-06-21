@@ -41,14 +41,19 @@ while True:
         else:
             output = "Invalid Path!"
         server.send(output.encode("UTF-8"))
+
     elif command == "ls":
+        output = ""
         for s in sorted(os.listdir(pwd)):
             if "-a" in args:
                 output = output + "\n" + s
             else:
                 if not s.startswith("."):
                     output = output + "\n" + s
+        if output == "":
+            output = "No files in directory!"
         server.send(output.encode("UTF-8"))
+
     elif command == "send":
         file_name = args[0]
         file_bytes = b""
@@ -65,10 +70,11 @@ while True:
             file = open(os.path.join(pwd, file_name), "wb")
             file.write(final_bytes)
             file.close()
-            output = "File send"
+            output = "File send!"
         else:
-            output = "File already exists!"
+            output = "File exists already!"
         server.send(output.encode("UTF-8"))
+
     elif command == "download":
         path = ""
         if os.path.exists(args[0]):

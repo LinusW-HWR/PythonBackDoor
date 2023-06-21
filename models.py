@@ -1,18 +1,17 @@
 class Client:
-    pwd = None
-    addr = None
-    socket = None
-    output = []
     files = []
 
     def __init__(self, pwd, addr, socket):
         self.pwd = pwd
         self.addr = addr
         self.socket = socket
+        self.output = []
+        self.files = []
 
-    def append_output(self, cmd):
-        cmd = str(cmd)
-        for l in cmd.splitlines():
+    def append_output(self, cmd, out):
+        out = str(out)
+        self.output.append(">> " + cmd)
+        for l in out.splitlines():
             self.output.append(l)
 
     def add_file(self, file):
@@ -26,10 +25,6 @@ class Client:
 
 
 class MemFile:
-    name = None
-    data = None
-
     def __init__(self, name, data):
         self.name = name
         self.data = data
-

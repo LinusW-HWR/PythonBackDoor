@@ -11,7 +11,7 @@ app.secret_key = "secret"
 
 
 @app.route('/')
-def hello():
+def default():
     return redirect(url_for("clients"))
 
 
@@ -28,6 +28,8 @@ def shell(shell_id):
         return render_template("shell.html", client=client)
     else:
         user_in = request.form["cmd"]
+        if user_in == "":
+            return render_template("shell.html", client=client)
         cmd = user_in.split(" ")[0]
         if cmd == "clear":
             client.output = []
@@ -43,12 +45,12 @@ def shell(shell_id):
                 client.append_output(result)
         else:
             output = server.handle_command(user_in, client)
-            client.append_output(output)
+            client.append_output(out=output, cmd=user_in)
         return render_template("shell.html", client=client)
 
 
 @app.route("/shell/<shell_id>/upload_file", methods=["POST"])
-def test(shell_id):
+def upload_file(shell_id):
     shell_id = int(shell_id)
     client = server.clients[shell_id]
     if request.files:

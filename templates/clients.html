@@ -11,8 +11,11 @@
     {% for c in cls %}
         <a class="btn btn-secondary shell_link" href="shell/{{ loop.index0 }}">
             <p class="clname">Client {{ loop.index0 }}</p>
-            <p>IP: {{ c.addr }}</p>
+            <p>IP: {{ c.addr[0] }}</p>
             <p>PWD: {{ c.pwd }}</p>
         </a>
     {% endfor %}
 {% endblock %}
+
+
+

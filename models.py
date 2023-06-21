@@ -5,7 +5,7 @@ class Client:
         self.pwd = pwd
         self.addr = addr
         self.socket = socket
-        self.output = []
+        self.output = ["Enter help for help"]
         self.files = []
 
     def append_output(self, cmd, out):

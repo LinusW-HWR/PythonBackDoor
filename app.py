@@ -42,7 +42,18 @@ def shell(shell_id):
                                  as_attachment=True,
                                  download_name=file_name)
             else:
-                client.append_output(result)
+                client.append_output(out=result, cmd=user_in)
+        elif cmd == "help":
+            output = """
+            pwd - View current directory
+            cd [destination] - Move to different directory (e.g. cd ..)
+            ls [args] - List content of directory (-a to include hidden files)
+            clear - Clear the console
+            download [file] - Download file from client (e.g. download test.txt | /home/test.txt)
+            send [file] - Send file from uploaded files to client (e.g. send test.txt) 
+            """
+            client.append_output(out=output, cmd=cmd)
+
         else:
             output = server.handle_command(user_in, client)
             client.append_output(out=output, cmd=user_in)

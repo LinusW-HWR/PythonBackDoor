@@ -1,5 +1,8 @@
+# Model classes
+
+
+# Client class to store all connected clients
 class Client:
-    files = []
 
     def __init__(self, pwd, addr, socket):
         self.pwd = pwd
@@ -24,6 +27,7 @@ class Client:
         return None
 
 
+# MemFile class to store all given files in the client instance
 class MemFile:
     def __init__(self, name, data):
         self.name = name

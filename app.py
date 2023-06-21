@@ -6,20 +6,30 @@ from flask import Flask, session, render_template, redirect, url_for, request, s
 import models
 from Server import server
 
+# configuring the Flask app
 app = Flask(__name__)
 app.secret_key = "secret"
 
 
+# default route
+# get redirected to the clients route
 @app.route('/')
 def default():
     return redirect(url_for("clients"))
 
 
+# clients route
+# all connected clients are getting displayed
 @app.route("/clients")
 def clients():
     return render_template("clients.html", cls=server.clients)
 
 
+# shell route
+# Site to interact with a client
+# POST and GET Methods are allowed
+# GET request: the template is getting rendered for a specific client
+# POST request: a command has been entered and is not being processed
 @app.route("/shell/<shell_id>", methods=["POST", "GET"])
 def shell(shell_id):
     shell_id = int(shell_id)
@@ -35,9 +45,11 @@ def shell(shell_id):
             client.output = []
         elif cmd == "download":
             result = server.handle_command(user_in, client)
+            # catch the result for when a file to download has been returned
             if not type(result) == str:
                 file_name = result[0]
                 file = result[1]
+                # sending file to user to download (in Browser)
                 return send_file(file,
                                  as_attachment=True,
                                  download_name=file_name)
@@ -55,17 +67,24 @@ def shell(shell_id):
             client.append_output(out=output, cmd=cmd)
 
         else:
+            # handle default commands where there is just a regular output that is getting displayed in the "console"
             output = server.handle_command(user_in, client)
+            # output is added to the client instance
             client.append_output(out=output, cmd=user_in)
+            # shell.html retrieves client instance to display all the needed data
         return render_template("shell.html", client=client)
 
 
+# upload file route
+# POST request: uploaded files are being processed (added to the specific Client instance)
 @app.route("/shell/<shell_id>/upload_file", methods=["POST"])
 def upload_file(shell_id):
     shell_id = int(shell_id)
     client = server.clients[shell_id]
     if request.files:
         if "file" in request.files:
+            # Creating MemFile instance with file name and data
+            # And adding the instance to the file list in the client
             file = request.files["file"]
             in_mem_file = io.BytesIO()
             file.save(in_mem_file)
@@ -75,7 +94,10 @@ def upload_file(shell_id):
     return redirect(url_for("shell", shell_id=shell_id))
 
 
+# get executed when this python file runs
 if __name__ == '__main__':
+    # Thread started where listen_for_clients method from server.py is running
+    # necessary to constantly accept connecting clients in the background
     thread = Thread(target=server.listen_for_clients)
     thread.start()
     app.run(host="0.0.0.0")

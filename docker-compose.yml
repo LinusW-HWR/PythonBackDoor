@@ -1,0 +1,17 @@
+services:
+    server:
+        image: "xlinus41/python_backdoor_server_flask"
+        container_name: bd_sv
+        environment:
+            - BD_HOST=bd_sv
+            - BD_PORT=8086
+        ports:
+          - "5000:5000"
+        stdin_open: true
+        tty: true
+    client:
+        image: "xlinus41/python_backdoor_client_flask"
+        environment:
+            - BD_HOST=bd_sv
+            - BD_PORT=8086
+

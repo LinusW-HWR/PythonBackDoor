@@ -100,4 +100,4 @@ if __name__ == '__main__':
     # necessary to constantly accept connecting clients in the background
     thread = Thread(target=server.listen_for_clients)
     thread.start()
-    app.run(host="0.0.0.0")
+    app.run(host="0.0.0.0", port=5002)

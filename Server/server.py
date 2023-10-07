@@ -115,3 +115,13 @@ def listen_for_clients():
         c = models.Client(pwd, client_addr, client)
         # client added to the list
         clients.append(c)
+
+
+def is_client_connected(client):
+    try:
+        # Attempt to send a small piece of data to the client
+        client.sendall(b'Ping')
+        return True
+    except (BrokenPipeError, ConnectionResetError, ConnectionAbortedError):
+        # Client socket is no longer active
+        return False

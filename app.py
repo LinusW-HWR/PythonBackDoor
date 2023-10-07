@@ -34,6 +34,9 @@ def clients():
 def shell(shell_id):
     shell_id = int(shell_id)
     client = server.clients[shell_id]
+    if not server.is_client_connected(client.socket):
+        server.clients.remove(client)
+        return redirect(url_for("clients"))
     if request.method == "GET":
         return render_template("shell.html", client=client)
     else:
